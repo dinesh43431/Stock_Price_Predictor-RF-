@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 # Streamlit page settings
 st.set_page_config(page_title="Stock Price Predictor", layout="centered")
 
-st.title("📈 Stock Price Predictor")
+st.title(" Stock Price Predictor")
 st.markdown("Enter a stock symbol (like **TCS.NS**, **RELIANCE.NS**, or **PRESTIGE.NS**) to get the next 3 days' predicted closing prices using Random Forest.")
 
 # User input
@@ -26,7 +26,7 @@ if st.button("Predict"):
         data = yf.download(symbol, start=start_date, end=end_date)
 
         if data.empty:
-            st.warning("⚠️ Could not fetch stock data. Please check the symbol.")
+            st.warning("Could not fetch stock data. Please check the symbol.")
         else:
             data = data[['Close']]
             data['Prev_Close'] = data['Close'].shift(1)
@@ -41,8 +41,8 @@ if st.button("Predict"):
             model = RandomForestRegressor(n_estimators=100, random_state=42)
             model.fit(X_train, y_train)
 
-            # 📉 Regression Fit Graph
-            st.subheader("📉 Fit: Prev Close vs Actual Close")
+            # Regression Fit Graph
+            st.subheader("Fit: Prev Close vs Actual Close")
             fig1, ax1 = plt.subplots(figsize=(10, 5))
             ax1.scatter(X_test, y_test, color='blue', label='Actual Price')
             ax1.scatter(X_test, model.predict(X_test), color='red', label='Predicted Price')
@@ -65,12 +65,12 @@ if st.button("Predict"):
                 predictions.append(next_price)
 
             # Show predictions
-            st.success("✅ Prediction Complete!")
+            st.success("Prediction Complete!")
             for d, p in zip(future_dates, predictions):
-                st.write(f"📅 **{d}**: ₹{p}")
+                st.write(f" **{d}**: ₹{p}")
 
             # Forecast plot
-            st.subheader(f"🔮 3-Day Forecast for {symbol}")
+            st.subheader(f" 3-Day Forecast for {symbol}")
             fig2, ax2 = plt.subplots()
             ax2.plot(future_dates, predictions, marker='o', linestyle='--', color='green')
             ax2.set_title("Next 3-Day Price Forecast (Random Forest)")
@@ -80,4 +80,4 @@ if st.button("Predict"):
             st.pyplot(fig2)
 
     except Exception as e:
-        st.error(f"❌ Error: {e}")
+        st.error(f" Error: {e}")
